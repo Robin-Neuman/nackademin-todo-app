@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="script.js"></script>
+    <title>Todo</title>
+</head>
+<body>
+    <div>
+        <table>
+            <% for(let i=0; i < todos.length; i++){ %>
+                <form type="submit">
+                    <tr>
+                        <td>Title: </td>
+                        <td><%= todos[i].title %></td>
+                    </tr>
+                    <tr>
+                        <td>Date: </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Done: </td>
+                        <td><input type="checkbox" name="done" id="done"></td>
+                    </tr>
+                    <tr>
+                        <td><button class="deleteBtn">Delete</button></td>
+                        <td><button class="editBtn">Edit</button></td>
+                    </tr>
+                </form>
+                <% } %>
+        </table>
+    </div>
+</body>
+</html>
