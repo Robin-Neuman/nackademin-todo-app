@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devStart": "nodemon ./app.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,8 @@
     "express": "^4.17.1",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }

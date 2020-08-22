@@ -14,9 +14,8 @@ async function getTodos() {
     return await query
 }
 
-async function addTodo(id, title) {
+async function addTodo(title) {
     const todo = {
-        _id: id,
         title: title,
         done: false
     }

@@ -6,12 +6,12 @@ async function getTodos(req, res) {
 }
 
 async function addTodo(req, res) {
-    console.log(req.params._id)
-    let response = await todo_model.addTodo(req.params._id, req.body.title)
+    let response = await todo_model.addTodo(req.body.title)
     return res.status(200).json(response)
 }
 
 async function updateTodo(req, res) {
+    console.log(req.params._id, req.body.title, req.body.done)
     let response = await todo_model.updateTodo(req.params._id, req.body.title, req.body.done)
     return res.status(200).json(response)
 }

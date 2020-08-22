@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="script.js"></script>
+    <link rel="stylesheet" href="main.css">
     <title>Todo</title>
 </head>
+
 <body>
+    <div id="overlay" hidden></div>
+    <div id="modal" hidden>
+        <input id="modalInput" type="text">
+        <input id="editedTodo" type="text" hidden>
+        <button id="submitChange">Submit change</button>
+        <button id="cancelModal">Cancel</button>
+    </div>
+    <div>
+        <button id="newTodo">New Todo</button>
+        <input id="inputTitle" type="text" hidden>
+        <button type="submit" id="submitTodo" hidden>Submit</button>
+    </div>
     <div>
         <table>
             <% for(let i=0; i < todos.length; i++){ %>
-                <form type="submit">
-                    <tr>
-                        <td>Title: </td>
-                        <td><%= todos[i].title %></td>
-                    </tr>
-                    <tr>
-                        <td>Date: </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Done: </td>
-                        <td><input type="checkbox" name="done" id="done"></td>
-                    </tr>
-                    <tr>
-                        <td><button class="deleteBtn">Delete</button></td>
-                        <td><button class="editBtn">Edit</button></td>
-                    </tr>
-                </form>
-                <% } %>
+            <tbody id="<%= todos[i]._id %>">
+                <tr>
+                    <td>Title: </td>
+                    <td class="title <%= todos[i]._id %>"><%= todos[i].title %></td>
+                </tr>
+                <tr>
+                    <td>Date: </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Done: </td>
+                    <td><input class="checkbox <%= todos[i]._id %>" type="checkbox" name="done" value="<%= todos[i]._id %>"></td>
+                </tr>
+                <tr>
+                    <td><button value="<%= todos[i]._id %>" class="deleteBtn">Delete</button></td>
+                    <td><button value="<%= todos[i]._id %>" class="editBtn">Edit</button></td>
+                </tr>
+            </tbody>
+            <% } %>
         </table>
     </div>
 </body>
+
 </html>
