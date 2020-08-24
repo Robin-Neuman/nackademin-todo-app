@@ -7,45 +7,60 @@
     <script defer src="script.js"></script>
     <link rel="stylesheet" href="main.css">
     <title>Todo</title>
+    <script>
+        var todos = '<%- JSON.stringify(todos) %>'
+    </script>
 </head>
 
 <body>
     <div id="overlay" hidden></div>
-    <div id="modal" hidden>
-        <input id="modalInput" type="text">
-        <input id="editedTodo" type="text" hidden>
-        <button id="submitChange">Submit change</button>
-        <button id="cancelModal">Cancel</button>
+    <div id="containerModal" hidden>
+        <div id="modal">
+            <input id="modalInput" type="text">
+            <input id="editedTodo" type="text" hidden>
+            <button id="submitChange">Submit change</button>
+            <button id="cancelModal">Cancel</button>
+        </div>
     </div>
-    <div>
+    <div class="containerTodo">
         <button id="newTodo">New Todo</button>
         <input id="inputTitle" type="text" hidden>
         <button type="submit" id="submitTodo" hidden>Submit</button>
     </div>
-    <div>
-        <table>
-            <% for(let i=0; i < todos.length; i++){ %>
-            <tbody id="<%= todos[i]._id %>">
-                <tr>
-                    <td>Title: </td>
-                    <td class="title <%= todos[i]._id %>"><%= todos[i].title %></td>
-                </tr>
-                <tr>
-                    <td>Date: </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Done: </td>
-                    <td><input class="checkbox <%= todos[i]._id %>" type="checkbox" name="done" value="<%= todos[i]._id %>"></td>
-                </tr>
-                <tr>
-                    <td><button value="<%= todos[i]._id %>" class="deleteBtn">Delete</button></td>
-                    <td><button value="<%= todos[i]._id %>" class="editBtn">Edit</button></td>
-                </tr>
-            </tbody>
-            <% } %>
-        </table>
+    <div class="containerTodo">
+        <button>Added</button>
+        <button>Last updated</button>
     </div>
+    <% for(let i=0; i < todos.length; i++){ %>
+    <table class="tableItem">
+        <tbody id="<%= todos[i]._id %>">
+            <tr>
+                <td>Title: </td>
+                <td class="title <%= todos[i]._id %>"><%= todos[i].title %></td>
+            </tr>
+            <tr>
+                <td>Added: </td>
+                <td id="date_added"><%= todos[i].date_added %></td>
+            </tr>
+            <tr>
+                <td>Last updated: </td>
+                <td id="date_updated"><%= todos[i].date_updated %></td>
+            </tr>
+            <tr>
+                <td>Done: </td>                
+                <% if(todos[i].done == true){ %>
+                    <td><input class="checkbox <%= todos[i]._id %>" checked type="checkbox" name="done" value="<%= todos[i]._id %>"></td>
+                    <% } else{ %>
+                    <td><input class="checkbox <%= todos[i]._id %>" type="checkbox" name="done" value="<%= todos[i]._id %>"></td>
+                    <% } %>                
+            </tr>
+            <tr class="padding-none">
+                <td class="padding-none"><button value="<%= todos[i]._id %>" class="deleteBtn">Delete</button></td>
+                <td class="padding-none"><button value="<%= todos[i]._id %>" class="editBtn">Edit</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <% } %>
 </body>
 
 </html>

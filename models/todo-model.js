@@ -15,7 +15,10 @@ async function getTodos() {
 }
 
 async function addTodo(title) {
+    const currDate = new Date()
+    const parsedDate = currDate.toUTCString()
     const todo = {
+        date_added: parsedDate.substr(5, 21),
         title: title,
         done: false
     }
@@ -33,7 +36,9 @@ async function addTodo(title) {
 
 async function updateTodo(id, title, done) {
     const query = new Promise((resolve, reject) => {
-        db.update({_id: id}, {title: title, done: done}, function (err, numReplaced) {
+        const currDate = new Date()
+        const parsedDate = currDate.toUTCString()
+        db.update({_id: id}, { $set: {title: title, done: done, date_updated: parsedDate.substr(5, 21)}}, function (err, numReplaced) {
             if(err) {
                 reject(err)
             } else {

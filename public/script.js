@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    // Open input window
     let newTodoBtn = document.getElementById('newTodo')
     newTodoBtn.addEventListener('click', function () {
         let inputTitle = document.getElementById('inputTitle')
@@ -8,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         submitTodo.hidden = false
     })
 
+    // Add new todo on submit
     let submitTodo = document.getElementById('submitTodo')
     submitTodo.addEventListener('click', function () {
         let inputTitle = document.getElementById('inputTitle').value
@@ -24,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(window.location.reload())
     })
 
+    // Delete todo
     let deleteBtns = document.querySelectorAll('.deleteBtn')
     for (button of deleteBtns) {
         button.addEventListener("click", function () {
@@ -34,10 +37,11 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     }
 
+    // Update "done" field of todo item
     let checkBoxes = document.querySelectorAll('.checkbox')
     for (checkbox of checkBoxes) {
         checkbox.addEventListener('click', function () {
-            let title = document.getElementById('title').innerText
+            let title = document.getElementsByClassName('title ' + this.value).innerText
             let data = {
                 done: this.checked,
                 title: title
@@ -52,33 +56,36 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     }
 
+    // Edit todo
     let editButtons = document.querySelectorAll('.editBtn')
     for (button of editButtons) {
         button.addEventListener('click', function () {
-            let title = document.getElementsByClassName('title ' + button.value)
+            let title = document.getElementsByClassName('title ' + this.value)
             let overlay = document.getElementById('overlay')
-            let modal = document.getElementById('modal')
+            let containerModal = document.getElementById('containerModal')
             let modalInput = document.getElementById('modalInput')
             let editedTodo = document.getElementById('editedTodo')
             overlay.hidden = false
-            modal.hidden = false
+            containerModal.hidden = false
             modalInput.value = title[0].innerText
-            editedTodo.value = button.value
+            editedTodo.value = this.value
         })
     }
 
+    // Cancel editing todo
     let cancelModal = document.getElementById('cancelModal')
     cancelModal.addEventListener('click', function () {
         let overlay = document.getElementById('overlay')
-        let modal = document.getElementById('modal')
+        let containerModal = document.getElementById('containerModal')
         let modalInput = document.getElementById('modalInput')
         let editedTodo = document.getElementById('editedTodo')
         overlay.hidden = true
-        modal.hidden = true
+        containerModal.hidden = true
         modalInput.value = ""
         editedTodo.value = ""
     })
 
+    // Submit edit
     let submitChange = document.getElementById('submitChange')
     submitChange.addEventListener('click', function () {
         let modalInput = document.getElementById('modalInput')
