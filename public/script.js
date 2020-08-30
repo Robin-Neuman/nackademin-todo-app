@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     newTodoBtn.addEventListener('click', function () {
         let inputTitle = document.getElementById('inputTitle')
         let submitTodo = document.getElementById('submitTodo')
-        inputTitle.hidden = false
-        submitTodo.hidden = false
+        inputTitle.classList.remove('hidden')
+        submitTodo.classList.remove('hidden')
     })
 
     // Add new todo on submit
@@ -31,7 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
     for (button of deleteBtns) {
         button.addEventListener("click", function () {
             fetch(`http://localhost:3006/todo/${this.value}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
             })
                 .then(window.location.reload())
         })
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let checkBoxes = document.querySelectorAll('.checkbox')
     for (checkbox of checkBoxes) {
         checkbox.addEventListener('click', function () {
-            let title = document.getElementsByClassName('title ' + this.value).innerText
+            let title = document.getElementsByClassName('title ' + this.value)[0].innerText
             let data = {
                 done: this.checked,
                 title: title
@@ -65,8 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let containerModal = document.getElementById('containerModal')
             let modalInput = document.getElementById('modalInput')
             let editedTodo = document.getElementById('editedTodo')
-            overlay.hidden = false
-            containerModal.hidden = false
+            overlay.classList.remove('hidden')
+            containerModal.classList.remove('hidden')
             modalInput.value = title[0].innerText
             editedTodo.value = this.value
         })
@@ -79,8 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let containerModal = document.getElementById('containerModal')
         let modalInput = document.getElementById('modalInput')
         let editedTodo = document.getElementById('editedTodo')
-        overlay.hidden = true
-        containerModal.hidden = true
+        overlay.classList.remove('hidden')
+        containerModal.classList.remove('hidden')
         modalInput.value = ""
         editedTodo.value = ""
     })

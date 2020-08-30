@@ -1,4 +1,4 @@
-body {
+body, html {
     margin: 0;
     color: white;
     background-color: rgb(78, 78, 78);
@@ -44,9 +44,6 @@ tr, td {
     border: 2px solid rgb(199, 96, 0);
     border-radius: 3px;
     box-shadow: 5px 5px rgb(0, 0, 0, 0.3);
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
 }
 
 #modal #submitChange {
@@ -64,8 +61,30 @@ tr, td {
     grid-row: 4 / 5;
 }
 
-.containerTodo {
+#newTodo, #submitTodo {
+    width: 100px;
+    height: 30px;
+}
+
+#inputTitle {    
+    width: 200px;
+    height: 25px;
+}
+
+#todoItems {    
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;   
+}
+
+#containerTodo {
     margin: 36px 12px 24px 12px;
+}
+
+#containerSort {
+    margin: 36px 12px 24px 12px;
+    display: flex;
+    flex-direction: row;
 }
 
 #overlay {
@@ -74,4 +93,8 @@ tr, td {
     z-index: 1;
     position: fixed;
     background-color: rgb(128, 128, 128, 0.5);
+}
+
+.hidden {
+    visibility: hidden;
 }

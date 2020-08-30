@@ -1,9 +1,8 @@
-var Datastore = require('nedb')
-    , db = new Datastore();
+const db = require('./DB')
 
 async function getTodos() {
     const query = new Promise((resolve, reject) => {
-        db.find({}, function (err, docs) {
+        db.todos.find({}, function (err, docs) {
             if(err) {
                 reject(err)
             } else {
@@ -23,7 +22,7 @@ async function addTodo(title) {
         done: false
     }
     const query = new Promise((resolve, reject) => {
-        db.insert(todo, function (err, newDoc) {
+        db.todos.insert(todo, function (err, newDoc) {
             if(err) {
                 reject(err)
             } else {
@@ -38,7 +37,7 @@ async function updateTodo(id, title, done) {
     const query = new Promise((resolve, reject) => {
         const currDate = new Date()
         const parsedDate = currDate.toUTCString()
-        db.update({_id: id}, { $set: {title: title, done: done, date_updated: parsedDate.substr(5, 21)}}, function (err, numReplaced) {
+        db.todos.update({_id: id}, { $set: {title: title, done: done, date_updated: parsedDate.substr(5, 21)}}, function (err, numReplaced) {
             if(err) {
                 reject(err)
             } else {
@@ -51,7 +50,7 @@ async function updateTodo(id, title, done) {
 
 async function removeTodo(id) {
     const query = new Promise((resolve, reject) => {
-        db.remove({_id: id}, function (err, numRemoved) {
+        db.todos.remove({_id: id}, function (err, numRemoved) {
             if(err) {
                 reject(err)
             } else {
