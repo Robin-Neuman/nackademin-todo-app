@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`http://localhost:3006/todo`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(title)
         })
@@ -50,7 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(`http://localhost:3006/todo/${this.value}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify(data)
             })
@@ -99,7 +101,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`http://localhost:3006/todo/${editedTodo.value}`, {
             method: "PUT",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(data)
         })
