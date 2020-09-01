@@ -37,7 +37,7 @@ async function authenticateTokenAdmin(req, res, next) {
     }
     if (token !== undefined && token !== null && token[1] !== 'null') {  
         const decoded = jwt_decode(token[1])
-        if (decoded.role == 'admin') {
+        if (decoded.role == 'admin' && Date.now() <= decoded.exp * 1000) {
             jwt.verify(token[1], process.env.SECRET_TOKEN, function (err) {
                 if (err) {
                     return res.status(401).json({
