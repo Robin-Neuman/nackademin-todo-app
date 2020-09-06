@@ -3,9 +3,9 @@ const app = express();
 const path = require('path')
 require('dotenv').config();
 
-var indexRouter = require("./routes/index")
-var todoRouter = require("./routes/todo")
-var userRouter = require("./routes/user")
+const indexRouter = require("./routes/index")
+const todoRouter = require("./routes/todo")
+const userRouter = require("./routes/user")
 
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')));
@@ -16,8 +16,9 @@ app.use('/', indexRouter)
 app.use('/todo', todoRouter)
 app.use('/user', userRouter)
 
-app.listen(3006, function () {
+const server = app.listen(3006, function () {
     console.log("Listening on port 3006")
 })
 
-module.exports = app;
+module.exports.app = app;
+module.exports.server = server;

@@ -11,7 +11,7 @@ router.get('/home', async function (req, res) {
     fetch('http://localhost:3006/todo')
     .then(response => response.json())
     .then(function (data) {
-        res.render('index', {todos: data})
+        res.render('index', {todoLists: data})
     })
 })
 

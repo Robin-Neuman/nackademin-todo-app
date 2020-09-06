@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Open input window
+    // Open todo input window
     let newTodoBtn = document.getElementById('newTodo')
     newTodoBtn.addEventListener('click', function () {
         let inputTitle = document.getElementById('inputTitle')
@@ -15,6 +15,33 @@ document.addEventListener("DOMContentLoaded", function () {
         let inputTitle = document.getElementById('inputTitle').value
         let title = {
             title: inputTitle
+        }
+        fetch(`http://localhost:3006/todo`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(title)
+        })
+            .then(window.location.reload())
+    })
+
+    // Open list input window
+    let newListBtn = document.getElementById('newList')
+    newListBtn.addEventListener('click', function () {
+        let inputListTitle = document.getElementById('inputListTitle')
+        let submitList = document.getElementById('submitList')
+        inputListTitle.classList.remove('hidden')
+        submitList.classList.remove('hidden')
+    })
+
+    // Add new list on submit
+    let submitList = document.getElementById('submitList')
+    submitList.addEventListener('click', function () {
+        let inputListTitle = document.getElementById('inputListTitle').value
+        let title = {
+            title: inputListTitle
         }
         fetch(`http://localhost:3006/todo`, {
             method: "POST",

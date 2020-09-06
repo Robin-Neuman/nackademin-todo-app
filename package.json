@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Robin-Neuman/nackademin-todo-app#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",

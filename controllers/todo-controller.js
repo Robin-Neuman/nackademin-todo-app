@@ -2,8 +2,8 @@ const todo_model = require('../models/todo-model')
 
 async function getTodos(req, res) {
     try {
-        let todos = await todo_model.getTodos()
-        return res.status(200).json(todos)
+        let todoLists = await todo_model.getTodos()
+        return res.status(200).json(todoLists)
     } catch (err) {
         res.status(500).send("Server error, contact admin for more info")
         throw err
@@ -12,7 +12,17 @@ async function getTodos(req, res) {
 
 async function addTodo(req, res) {
     try {
-        let response = await todo_model.addTodo(req.body.title)
+        let response = await todo_model.addTodo(req.body.title, req.params.listId)
+        return res.status(200).json(response)
+    } catch (err) {
+        res.status(500).send("Server error, contact admin for more info")
+        throw err
+    }
+}
+
+async function addTodoList(req, res) {
+    try {
+        let response = await todo_model.addTodoList(req.body.title)
         return res.status(200).json(response)
     } catch (err) {
         res.status(500).send("Server error, contact admin for more info")
@@ -40,4 +50,4 @@ async function removeTodo(req, res) {
     }
 }
 
-module.exports = { getTodos, addTodo, updateTodo, removeTodo }
+module.exports = { getTodos, addTodo, updateTodo, removeTodo, addTodoList }
