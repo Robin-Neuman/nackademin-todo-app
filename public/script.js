@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let newTodoBtns = document.querySelectorAll('#listContainer .newTodo')
     for (let i = 0; i < newTodoBtns.length; i++) {
         newTodoBtns[i].addEventListener('click', function () {
-            console.log(newTodoBtns[i].classList[1])
             let inputTitle = document.querySelector(`.inputTodo.${newTodoBtns[i].classList[1]}`)
             let submitTodo = document.querySelector(`.submitTodo.${newTodoBtns[i].classList[1]}`)
             inputTitle.classList.remove('hidden')

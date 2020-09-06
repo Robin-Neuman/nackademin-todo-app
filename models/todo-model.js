@@ -70,7 +70,6 @@ async function addTodo(title, listId) {
             if (err) {
                 reject(err)
             } else {
-                console.log("Runs", newDoc)
                 resolve(newDoc)
             }
         })
