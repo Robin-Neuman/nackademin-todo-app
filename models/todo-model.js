@@ -8,16 +8,18 @@ async function getTodos() {
             db.todos.find({}, async function (err, todos) {
                 if (err) reject(err)
                 lists.map((list) => {
-                    console.log("map")
+                    let id = "id" + list._id
                     let currList = {
-                        id: list.id,
+                        _id: id,
                         title: list.title,
                         todos: []
                     }
                     for (todo of todos) {
-                        if (list.id == todo.listId) {
+                        if (list._id == todo.listId) {
+                            let id = "id" + todo._id
                             currList.todos.push(
                                 {
+                                    _id: id,
                                     date_added: todo.date_added,
                                     title: todo.title,
                                     done: todo.done,
@@ -35,7 +37,6 @@ async function getTodos() {
     }).catch((err) => {
         console.log(err)
     })
-    console.log(await query)
     return await query
 }
 
@@ -69,6 +70,7 @@ async function addTodo(title, listId) {
             if (err) {
                 reject(err)
             } else {
+                console.log("Runs", newDoc)
                 resolve(newDoc)
             }
         })
@@ -104,4 +106,17 @@ async function removeTodo(id) {
     return await query
 }
 
-module.exports = { getTodos, addTodo, updateTodo, removeTodo, addTodoList }
+async function removeList(id) {
+    const query = new Promise((resolve, reject) => {
+        db.todoLists.remove({ _id: id }, function (err, numRemoved1) {
+            if (err) reject(err)
+                db.todos.remove({ listId: id }, { multi: true }, function (err, numRemoved2) {
+                    if (err) reject(err)
+                    resolve(numRemoved1, numRemoved2)
+                })
+        })
+    })
+    return await query
+}
+
+module.exports = { getTodos, addTodo, updateTodo, removeTodo, addTodoList, removeList }

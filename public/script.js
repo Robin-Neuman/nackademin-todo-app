@@ -1,31 +1,38 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // Open todo input window
-    let newTodoBtn = document.getElementById('newTodo')
-    newTodoBtn.addEventListener('click', function () {
-        let inputTitle = document.getElementById('inputTitle')
-        let submitTodo = document.getElementById('submitTodo')
-        inputTitle.classList.remove('hidden')
-        submitTodo.classList.remove('hidden')
-    })
+    let newTodoBtns = document.querySelectorAll('#listContainer .newTodo')
+    for (let i = 0; i < newTodoBtns.length; i++) {
+        newTodoBtns[i].addEventListener('click', function () {
+            console.log(newTodoBtns[i].classList[1])
+            let inputTitle = document.querySelector(`.inputTodo.${newTodoBtns[i].classList[1]}`)
+            let submitTodo = document.querySelector(`.submitTodo.${newTodoBtns[i].classList[1]}`)
+            inputTitle.classList.remove('hidden')
+            submitTodo.classList.remove('hidden')
+        })
+    }
 
     // Add new todo on submit
-    let submitTodo = document.getElementById('submitTodo')
-    submitTodo.addEventListener('click', function () {
-        let inputTitle = document.getElementById('inputTitle').value
-        let title = {
-            title: inputTitle
-        }
-        fetch(`http://localhost:3006/todo`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(title)
+    let submitTodos = document.querySelectorAll(`#listContainer .submitTodo`)
+    for (let i = 0; i < submitTodos.length; i++) {
+        submitTodos[i].addEventListener('click', function () {
+            let inputTitle = document.querySelector(`.inputTodo.${submitTodos[i].classList[1]}`).value
+            let title = {
+                title: inputTitle
+            }
+            let id = submitTodos[i].value
+            let pureId = id.slice(2) 
+            fetch(`http://localhost:3006/todo/${pureId}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(title)
+            })
+                .then(window.location.reload())
         })
-            .then(window.location.reload())
-    })
+    }
 
     // Open list input window
     let newListBtn = document.getElementById('newList')
@@ -56,9 +63,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Delete todo
     let deleteBtns = document.querySelectorAll('.deleteBtn')
-    for (button of deleteBtns) {
-        button.addEventListener("click", function () {
-            fetch(`http://localhost:3006/todo/${this.value}`, {
+    for (let i = 0; i < deleteBtns.length; i++) {
+        deleteBtns[i].addEventListener("click", function () {
+            let id = deleteBtns[i].value
+            let pureId = id.slice(2) 
+            fetch(`http://localhost:3006/todo/${pureId}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+            })
+                .then(window.location.reload())
+        })
+    }
+
+    // Delete list
+    let deleteListBtns = document.querySelectorAll('.deleteListBtn')
+    for (let i = 0; i < deleteListBtns.length; i++) {
+        deleteListBtns[i].addEventListener("click", function () {
+            let id = deleteListBtns[i].value
+            let pureId = id.slice(2) 
+            fetch(`http://localhost:3006/todo/list/${pureId}`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
             })
@@ -68,14 +91,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Update "done" field of todo item
     let checkBoxes = document.querySelectorAll('.checkbox')
-    for (checkbox of checkBoxes) {
-        checkbox.addEventListener('click', function () {
-            let title = document.getElementsByClassName('title ' + this.value)[0].innerText
+    for (let i = 0; i < checkBoxes.length; i++) {
+        checkBoxes[i].addEventListener('click', function () {
+            let title = document.getElementsByClassName('title ' + checkBoxes[i].value)[0].innerText
             let data = {
-                done: this.checked,
+                done: checkBoxes[i].checked,
                 title: title
             }
-            fetch(`http://localhost:3006/todo/${this.value}`, {
+            let id = checkBoxes[i].value
+            let pureId = id.slice(2) 
+            fetch(`http://localhost:3006/todo/${pureId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -88,9 +113,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Edit todo
     let editButtons = document.querySelectorAll('.editBtn')
-    for (button of editButtons) {
-        button.addEventListener('click', function () {
-            let title = document.getElementsByClassName('title ' + this.value)
+    for (let i = 0; i < editButtons.length; i++) {
+        editButtons[i].addEventListener('click', function () {
+            let title = document.getElementsByClassName('title ' + editButtons[i].value)
             let overlay = document.getElementById('overlay')
             let containerModal = document.getElementById('containerModal')
             let modalInput = document.getElementById('modalInput')
@@ -98,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
             overlay.classList.remove('hidden')
             containerModal.classList.remove('hidden')
             modalInput.value = title[0].innerText
-            editedTodo.value = this.value
+            editedTodo.value = editButtons[i].value
         })
     }
 
@@ -125,7 +150,9 @@ document.addEventListener("DOMContentLoaded", function () {
             done: done[0].checked,
             title: modalInput.value
         }
-        fetch(`http://localhost:3006/todo/${editedTodo.value}`, {
+        let id = submitChange.value
+        let pureId = id.slice(2) 
+        fetch(`http://localhost:3006/todo/${pureId}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

@@ -50,4 +50,14 @@ async function removeTodo(req, res) {
     }
 }
 
-module.exports = { getTodos, addTodo, updateTodo, removeTodo, addTodoList }
+async function removeList(req, res) {
+    try {
+        let response = await todo_model.removeList(req.params._id)
+        return res.status(200).json(response)
+    } catch (err) {
+        res.status(500).send("Server error, contact admin for more info")
+        throw err
+    }
+}
+
+module.exports = { getTodos, addTodo, updateTodo, removeTodo, addTodoList, removeList }

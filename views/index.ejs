@@ -24,10 +24,6 @@
             </div>
         </div>
         <div id="containerTodo">
-            <button id="newTodo">New Todo</button>
-            <input id="inputTitle" type="text" class="hidden">
-            <button type="submit" id="submitTodo" class="hidden">Submit</button>
-            
             <button id="newList">New List</button>
             <input id="inputListTitle" type="text" class="hidden">
             <button type="submit" id="submitList" class="hidden">Submit</button>
@@ -37,46 +33,55 @@
             <button>Last updated</button>
         </div>
         <div id="listContainer">
-            <% for (let i = 0; i < todoLists.length) { %>
-                <div id="<%= todoLists[i]._id %>">
-                    <h1><%= todoLists[i].title %></h1>
-                    <div id="todoItems">
-                        <% for(let i=0; i < todos.length; i++){ %>
-                        <table class="tableItem">
-                            <tbody id="<%= todos[i]._id %>">
-                                <tr>
-                                    <td>Title: </td>
-                                    <td class="title <%= todos[i]._id %>"><%= todos[i].title %></td>
-                                </tr>
-                                <tr>
-                                    <td>Added: </td>
-                                    <td id="date_added"><%= todos[i].date_added %></td>
-                                </tr>
-                                <tr>
-                                    <td>Last updated: </td>
-                                    <td id="date_updated"><%= todos[i].date_updated %></td>
-                                </tr>
-                                <tr>
-                                    <td>Done: </td>
-                                    <% if(todos[i].done == true){ %>
-                                    <td><input class="checkbox <%= todos[i]._id %>" checked type="checkbox" name="done"
-                                            value="<%= todos[i]._id %>"></td>
-                                    <% } else{ %>
-                                    <td><input class="checkbox <%= todos[i]._id %>" type="checkbox" name="done"
-                                            value="<%= todos[i]._id %>"></td>
-                                    <% } %>
-                                </tr>
-                                <tr class="padding-none">
-                                    <td class="padding-none"><button value="<%= todos[i]._id %>" class="deleteBtn">Delete</button>
-                                    </td>
-                                    <td class="padding-none"><button value="<%= todos[i]._id %>" class="editBtn">Edit</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <% } %>
-                    </div>        
+            <% for (let i1 = 0; i1 < todoLists.length; i1++) { %>
+            <div id="<%= todoLists[i1]._id %>">
+                <h1><%= todoLists[i1].title %></h1>
+                <button value="<%= todoLists[i1]._id %>" class="deleteListBtn">Delete list</button>
+                <button class="newTodo <%= todoLists[i1]._id %>">New Todo</button>
+                <input type="text" class="inputTodo <%= todoLists[i1]._id %> hidden">
+                <button type="submit" class="submitTodo <%= todoLists[i1]._id %> hidden" value="<%= todoLists[i1]._id %>">Submit</button>
+                <div id="todoItems">
+                    <% if (todoLists[i1].todos.length !== null) { %>
+                    <% for(let i2 = 0; i2 < todoLists[i1].todos.length; i2++) { %>
+                    <table class="tableItem">
+                        <tbody id="<%= todoLists[i1].todos[i2]._id %>">
+                            <tr>
+                                <td>Title: </td>
+                                <td class="title <%= todoLists[i1].todos[i2]._id %>"><%= todoLists[i1].todos[i2].title %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Added: </td>
+                                <td id="date_added"><%= todoLists[i1].todos[i2].date_added %></td>
+                            </tr>
+                            <tr>
+                                <td>Last updated: </td>
+                                <td id="date_updated"><%= todoLists[i1].todos[i2].date_updated %></td>
+                            </tr>
+                            <tr>
+                                <td>Done: </td>
+                                <% if(todoLists[i1].todos[i2].done == true){ %>
+                                <td><input class="checkbox <%= todoLists[i1].todos[i2]._id %>" checked type="checkbox"
+                                        name="done" value="<%= todoLists[i1].todos[i2]._id %>"></td>
+                                <% } else{ %>
+                                <td><input class="checkbox <%= todoLists[i1].todos[i2]._id %>" type="checkbox" name="done"
+                                        value="<%= todoLists[i1].todos[i2]._id %>"></td>
+                                <% } %>
+                            </tr>
+                            <tr class="padding-none">
+                                <td class="padding-none"><button value="<%= todoLists[i1].todos[i2]._id %>"
+                                        class="deleteBtn">Delete</button>
+                                </td>
+                                <td class="padding-none"><button value="<%= todoLists[i1].todos[i2]._id %>"
+                                        class="editBtn">Edit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <% } %>
+                    <% } %>
                 </div>
-                <% } %>            
+            </div>
+            <% } %>
         </div>
         <div id="logout">
             <button onclick="localStorage.removeItem('token')">Log out</button>
