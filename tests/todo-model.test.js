@@ -6,7 +6,8 @@ const app = require('../app.js').app;
 const server = require('../app.js').server;
 const expect = chai.expect;
 const todo_model = require('../models/todo-model')
-const db = require('../models/DB')
+const db = require('../models/DB');
+const { response } = require('express');
 
 describe('Get all todolists and todos', function() {
     it('Should return an array of lists with todos as a nested array', async function () {
@@ -34,5 +35,27 @@ describe('Remove todolist item with specific id', function () {
         let response = await todo_model.removeList(addResponse._id)
         expect(response).to.equal(1)
         
+    })
+})
+
+describe('Update todo with new information and receive numreplaced 1', async function () {
+    await db.todoLists.remove({ title: 'test' }, { multi: true })
+    await db.todos.remove({ title: 'test' }, { multi: true })
+    let addListResponse = await todo_model.addTodoList('test')
+    let addTodoResponse = await todo_model.addTodo('test', addListResponse._id)
+    let updateResponse = await todo_model.updateTodo(addTodoResponse._id, 'newTitle', true)
+    expect(updateResponse).to.equal(1)
+})
+
+describe('Add new todo list and a todo to db with new date', function () {
+    it('Should return the newly added todo list and return new todo with new correct date', async function () {
+        await db.todoLists.remove({ title: 'test' }, { multi: true })
+        await db.todos.remove({ title: 'test' }, { multi: true })
+        let addListResponse = await todo_model.addTodoList('test')
+        await todo_model.addTodo('test', addListResponse._id)
+        let getResponse = await todo_model.getTodoList(addListResponse._id)
+        expect(addListResponse.title).to.equal("test")
+        expect(getResponse.todos[0].title).to.equal("test")
+        expect(new Date(getResponse.todos[0].date_added)).to.not.equal('Invalid Date')
     })
 })
