@@ -45,7 +45,7 @@ async function getTodoList(id) {
     const query = new Promise((resolve, reject) => {
         db.todoLists.findOne({ _id: id }, function (err, list) {
             if (err) reject(err)
-            db.todos.find({ listId: id }, async function (err, todos) {
+            db.todos.find({}, async function (err, todos) {
                 if (err) reject(err)
                 let id = "id" + list._id
                 let currList = {
