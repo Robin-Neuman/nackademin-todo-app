@@ -81,12 +81,33 @@ async function addTodoList(title) {
     }
     const query = new Promise((resolve, reject) => {
         db.todoLists.insert(todoList, function (err, newDoc) {
+            if (!title) {
+                reject({
+                    success: false,
+                    message: 'Failed to add todolist',
+                    error: err,
+                    status: 500
+                })
+            }
             if (err) {
-                reject(err)
+                reject({
+                    success: false,
+                    message: 'Failed to add todolist',
+                    error: err,
+                    status: 500
+                })
             } else {
-                resolve(newDoc)
+                resolve({
+                    success: true,
+                    message: 'Todolist successfully added',
+                    doc: newDoc,
+                    status: 200
+                })
             }
         })
+    }).catch((err) => {
+        console.log(err)
+        return (err)
     })
     return await query
 }

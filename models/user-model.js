@@ -12,19 +12,22 @@ async function loginUser(username, password) {
                         if (err) reject(err)
                         resolve({
                             success: true,
-                            token: token
+                            token: token,
+                            status: 200
                         })
                     })
                 } else {
                     reject({
                         success: false,
-                        message: "Incorrect password or username"
+                        message: "Incorrect password or username",
+                        status: 401
                     })
                 }
             } else {
                 reject({
                     success: false,
-                    message: "Incorrect password or username"
+                    message: "Incorrect password or username",
+                    status: 401
                 })
             }
         })
@@ -42,13 +45,15 @@ async function registerUser(username, password, role) {
                 db.users.insert({ username: username, password: bcrypt.hashSync(password), role: role}, function () {
                     resolve({
                         success: true,
-                        message: 'User successfully created!'
+                        message: 'User successfully created!',
+                        status: 200
                     })
                 })
             } else {
                 reject({
                     success: false,
-                    message: "User already exists"
+                    message: "User already exists",
+                    status: 401
                 })
             }
         })

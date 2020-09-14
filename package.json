@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha ./tests/todo-model.test",
+    "testApi": "mocha ./tests/api.test",
     "devStart": "nodemon ./app.js"
   },
   "repository": {
