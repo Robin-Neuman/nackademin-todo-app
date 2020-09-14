@@ -19,18 +19,18 @@ describe('Get all todolists and todos', function() {
 describe('Add a new todo list into database', function () {
     it('Should return an object with the added todolist title and an _id', async function () { 
         let response = await todo_model.addTodoList('test')
-        expect(response).to.be.an('object')
-        expect(response).and.to.have.own.property('_id')
-        expect(response).and.to.have.own.property('title')
-        expect(response.title).to.equal('test')
-        expect(response._id).to.not.equal(undefined).and.to.not.equal(null)
+        expect(response.doc).to.be.an('object')
+        expect(response.doc).and.to.have.own.property('_id')
+        expect(response.doc).and.to.have.own.property('title')
+        expect(response.doc.title).to.equal('test')
+        expect(response.doc._id).to.not.equal(undefined).and.to.not.equal(null)
     })
 })
 
 describe('Remove todolist item with specific id', function () {
     it('Should return an object with the added todolist title and an _id', async function () { 
         let addResponse = await todo_model.addTodoList('test')
-        let response = await todo_model.removeList(addResponse._id)
+        let response = await todo_model.removeList(addResponse.doc._id)
         expect(response).to.equal(1)
         
     })
@@ -43,9 +43,10 @@ describe('Add new todo list and a todo to db with new date', function () {
         await db.todos.remove({ title: 'newTestTitle' }, { multi: true })
 
         let addListResponse = await todo_model.addTodoList('testList')
-        await todo_model.addTodo('testTodo', addListResponse._id)
-        let getResponse = await todo_model.getTodoList(addListResponse._id)
-        expect(addListResponse.title).to.equal("testList")
+        await todo_model.addTodo('testTodo', addListResponse.doc._id)
+        let getResponse = await todo_model.getTodoList(addListResponse.doc._id)
+        console.log(addListResponse, getResponse)
+        expect(addListResponse.doc.title).to.equal("testList")
         expect(getResponse.todos[0].title).to.equal("testTodo")
         expect(new Date(getResponse.todos[0].date_added)).to.not.equal('Invalid Date')
     })
@@ -57,8 +58,8 @@ describe('Update todo with new information and receive numreplaced 1', async fun
     await db.todos.remove({ title: 'newTestTitle' }, { multi: true })
 
     let addListResponse = await todo_model.addTodoList('testList')
-    let addTodoResponse = await todo_model.addTodo('testTodo', addListResponse._id)
-    let updateResponse = await todo_model.updateTodo(addTodoResponse._id, 'newTestTitle', true)
+    let addTodoResponse = await todo_model.addTodo('testTodo', addListResponse.doc._id)
+    let updateResponse = await todo_model.updateTodo(addTodoResponse.doc._id, 'newTestTitle', true)
     expect(updateResponse).to.equal(1)
 })
 
