@@ -45,7 +45,6 @@ describe('Add new todo list and a todo to db with new date', function () {
         let addListResponse = await todo_model.addTodoList('testList')
         await todo_model.addTodo('testTodo', addListResponse.doc._id)
         let getResponse = await todo_model.getTodoList(addListResponse.doc._id)
-        console.log(addListResponse, getResponse)
         expect(addListResponse.doc.title).to.equal("testList")
         expect(getResponse.todos[0].title).to.equal("testTodo")
         expect(new Date(getResponse.todos[0].date_added)).to.not.equal('Invalid Date')
