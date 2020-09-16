@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         let id = submitChange.value
         let pureId = id.slice(2)
-        fetch(`http://localhost:3006/todo/${pureId}`, {
+        fetch(`https://todo-app-robin.herokuapp.com/todo/${pureId}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

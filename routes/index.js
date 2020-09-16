@@ -7,7 +7,7 @@ router.get('/', async function (req, res) {
 })
 
 router.get('/home', async function (req, res) {
-    fetch('http://localhost:3006/todo')
+    fetch('https://todo-app-robin.herokuapp.com/todo')
     .then(response => response.json())
     .then(function (data) {
         res.render('index', {todoLists: data})
