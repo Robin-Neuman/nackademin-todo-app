@@ -20,4 +20,14 @@ async function registerUser(req, res) {
     }
 }
 
-module.exports = { loginUser, registerUser }
+async function deleteUser(req, res) {
+    try {
+        let response = await user_model.deleteUser(req.headers.authorization)
+        return res.status(200).json(response)
+    } catch (err) {
+        res.status(500).send("Server error, contact admin for more info")
+        throw err
+    }
+}
+
+module.exports = { loginUser, registerUser, deleteUser }

@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const parseJwt = (token) => {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+        } catch (e) {
+            return null;
+        }
+    };
 
     // Open todo input window
     let newTodoBtns = document.querySelectorAll('#listContainer .newTodo')
@@ -16,11 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 0; i < submitTodos.length; i++) {
         submitTodos[i].addEventListener('click', function () {
             let inputTitle = document.querySelector(`.inputTodo.${submitTodos[i].classList[1]}`).value
+            const decoded = parseJwt(localStorage.getItem('token'))
             let title = {
-                title: inputTitle
+                title: inputTitle,
+                user_id: decoded.user._id
             }
             let id = submitTodos[i].value
-            let pureId = id.slice(2) 
+            let pureId = id.slice(2)
             fetch(`http://localhost:3006/todo/${pureId}`, {
                 method: "POST",
                 headers: {
@@ -45,9 +54,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add new list on submit
     let submitList = document.getElementById('submitList')
     submitList.addEventListener('click', function () {
+        const decoded = parseJwt(localStorage.getItem('token'))
         let inputListTitle = document.getElementById('inputListTitle').value
         let title = {
-            title: inputListTitle
+            title: inputListTitle,
+            user_id: decoded.user._id
         }
         fetch(`http://localhost:3006/todo`, {
             method: "POST",
@@ -65,10 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 0; i < deleteBtns.length; i++) {
         deleteBtns[i].addEventListener("click", function () {
             let id = deleteBtns[i].value
-            let pureId = id.slice(2) 
+            let pureId = id.slice(2)
             fetch(`http://localhost:3006/todo/${pureId}`, {
                 method: 'DELETE',
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
                 .then(window.location.reload())
         })
@@ -79,10 +90,10 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 0; i < deleteListBtns.length; i++) {
         deleteListBtns[i].addEventListener("click", function () {
             let id = deleteListBtns[i].value
-            let pureId = id.slice(2) 
+            let pureId = id.slice(2)
             fetch(`http://localhost:3006/todo/list/${pureId}`, {
                 method: 'DELETE',
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
                 .then(window.location.reload())
         })
@@ -98,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 title: title
             }
             let id = checkBoxes[i].value
-            let pureId = id.slice(2) 
+            let pureId = id.slice(2)
             fetch(`http://localhost:3006/todo/${pureId}`, {
                 method: 'PUT',
                 headers: {
@@ -150,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
             title: modalInput.value
         }
         let id = submitChange.value
-        let pureId = id.slice(2) 
+        let pureId = id.slice(2)
         fetch(`http://localhost:3006/todo/${pureId}`, {
             method: "PUT",
             headers: {

@@ -12,7 +12,7 @@ async function getTodos(req, res) {
 
 async function addTodo(req, res) {
     try {
-        let response = await todo_model.addTodo(req.body.title, req.params.listId)
+        let response = await todo_model.addTodo(req.body.title, req.params.listId, req.body.user_id)
         return res.status(200).json(response)
     } catch (err) {
         res.status(500).send("Server error, contact admin for more info")
@@ -22,7 +22,7 @@ async function addTodo(req, res) {
 
 async function addTodoList(req, res) {
     try {
-        let response = await todo_model.addTodoList(req.body.title)
+        let response = await todo_model.addTodoList(req.body.title, req.body.user_id, req.body.user_id)
         return res.status(response.status).json(response)
     } catch (err) {
         res.status(500).send("Server error, contact admin for more info")

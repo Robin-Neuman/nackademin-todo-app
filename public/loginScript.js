@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log(localStorage.getItem('token'))
     // Handle login button click
     let loginBtn = document.getElementById('submitLogin')
     loginBtn.addEventListener('click', function (e) {

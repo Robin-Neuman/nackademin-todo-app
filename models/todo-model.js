@@ -77,20 +77,21 @@ async function getTodoList(id) {
     return await query
 }
 
-async function addTodoList(title) {
+async function addTodoList(title, user_id) {
+    if (!title || !user_id) {
+        reject({
+            success: false,
+            message: 'Failed to add todolist',
+            error: err,
+            status: 500
+        })
+    }
     const todoList = {
-        title: title
+        title: title,
+        user_id: user_id
     }
     const query = new Promise((resolve, reject) => {
         db.todoLists.insert(todoList, function (err, newDoc) {
-            if (!title) {
-                reject({
-                    success: false,
-                    message: 'Failed to add todolist',
-                    error: err,
-                    status: 500
-                })
-            }
             if (err) {
                 reject({
                     success: false,
@@ -114,13 +115,14 @@ async function addTodoList(title) {
     return await query
 }
 
-async function addTodo(title, listId) {
+async function addTodo(title, listId, user_id) {
     let parsedDate = await getNewUtcDate()
     const todo = {
         date_added: parsedDate.substr(0, 24),
         title: title,
         done: false,
-        listId: listId
+        listId: listId,
+        user_id: user_id
     }
     const query = new Promise((resolve, reject) => {
         db.todos.insert(todo, function (err, newDoc) {
