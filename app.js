@@ -16,9 +16,7 @@ app.use('/', indexRouter)
 app.use('/todo', todoRouter)
 app.use('/user', userRouter)
 
-const server = app.listen(3006, function () {
-    console.log("Listening on port 3006")
-})
+const server = app.listen(process.env.port || 3006)
 
 module.exports.app = app;
 module.exports.server = server;
