@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             let id = submitTodos[i].value
             let pureId = id.slice(2)
-            fetch(`https://todo-app-robin.herokuapp.com//todo/${pureId}`, {
+            fetch(`https://todo-app-robin.herokuapp.com/todo/${pureId}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
