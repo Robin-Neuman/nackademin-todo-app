@@ -22,7 +22,7 @@ app.use('/', indexRouter)
 app.use('/todo', todoRouter)
 app.use('/user', userRouter)
 
-const server = app.listen(process.env.PORT || 3006, '0.0.0.0')
+const server = app.listen(process.env.PORT || 3006)
 
 module.exports.app = app;
 module.exports.server = server;

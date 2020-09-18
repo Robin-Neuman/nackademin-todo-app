@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
             password: formData.get('password')
         }
 
-        fetch(`https://todo-app-robin.herokuapp.com/user/login`, {
+        fetch(`http://localhost:3006/user/login`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.success) {
                 localStorage.removeItem('token')
                 localStorage.setItem('token', data.token)
-                window.location.href = 'https://todo-app-robin.herokuapp.com/home'
+                window.location.href = '/home'
             }
         })
     })
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             role: formData.get('role')
         }
 
-        fetch(`https://todo-app-robin.herokuapp.com/user/register`, {
+        fetch(`http://localhost:3006/user/register`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

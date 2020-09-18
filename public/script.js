@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             let id = submitTodos[i].value
             let pureId = id.slice(2)
-            fetch(`https://todo-app-robin.herokuapp.com/todo/${pureId}`, {
+            fetch(`/todo/${pureId}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             title: inputListTitle,
             user_id: decoded.user._id
         }
-        fetch(`https://todo-app-robin.herokuapp.com/todo`, {
+        fetch(`http://localhost:3006/todo`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify(title)
         })
-            .then(window.location.reload())
+        .then((window.location.reload()))
     })
 
     // Delete todo
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteBtns[i].addEventListener("click", function () {
             let id = deleteBtns[i].value
             let pureId = id.slice(2)
-            fetch(`https://todo-app-robin.herokuapp.com/todo/${pureId}`, {
+            fetch(`http://localhost:3006/todo/${pureId}`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
@@ -91,11 +91,14 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteListBtns[i].addEventListener("click", function () {
             let id = deleteListBtns[i].value
             let pureId = id.slice(2)
-            fetch(`https://todo-app-robin.herokuapp.com/todo/list/${pureId}`, {
+            fetch(`http://localhost:3006/todo/list/${pureId}`, {
                 method: 'DELETE',
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                headers: {
+                    'Content-Type': 'application/json', 
+                    Authorization: `Bearer ${localStorage.getItem('token')}` 
+                }
             })
-                .then(window.location.reload())
+                .then((window.location.reload()))
         })
     }
 
@@ -110,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             let id = checkBoxes[i].value
             let pureId = id.slice(2)
-            fetch(`https://todo-app-robin.herokuapp.com/todo/${pureId}`, {
+            fetch(`http://localhost:3006/todo/${pureId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -160,9 +163,10 @@ document.addEventListener("DOMContentLoaded", function () {
             done: done[0].checked,
             title: modalInput.value
         }
-        let id = submitChange.value
+        console.log(data)
+        let id = editedTodo.value
         let pureId = id.slice(2)
-        fetch(`https://todo-app-robin.herokuapp.com/todo/${pureId}`, {
+        fetch(`http://localhost:3006/todo/${pureId}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
