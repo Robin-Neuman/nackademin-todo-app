@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             title: inputListTitle,
             user_id: decoded.user._id
         }
-        fetch(`http://localhost:3006/todo`, {
+        fetch(`/todo`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteBtns[i].addEventListener("click", function () {
             let id = deleteBtns[i].value
             let pureId = id.slice(2)
-            fetch(`http://localhost:3006/todo/${pureId}`, {
+            fetch(`/todo/${pureId}`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteListBtns[i].addEventListener("click", function () {
             let id = deleteListBtns[i].value
             let pureId = id.slice(2)
-            fetch(`http://localhost:3006/todo/list/${pureId}`, {
+            fetch(`/todo/list/${pureId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json', 
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             let id = checkBoxes[i].value
             let pureId = id.slice(2)
-            fetch(`http://localhost:3006/todo/${pureId}`, {
+            fetch(`/todo/${pureId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(data)
         let id = editedTodo.value
         let pureId = id.slice(2)
-        fetch(`http://localhost:3006/todo/${pureId}`, {
+        fetch(`/todo/${pureId}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

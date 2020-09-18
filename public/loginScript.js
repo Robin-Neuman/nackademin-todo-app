@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
             password: formData.get('password')
         }
 
-        fetch(`http://localhost:3006/user/login`, {
+        fetch(`/user/login`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             role: formData.get('role')
         }
 
-        fetch(`http://localhost:3006/user/register`, {
+        fetch(`/user/register`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

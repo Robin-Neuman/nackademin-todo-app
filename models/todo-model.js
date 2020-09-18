@@ -79,10 +79,9 @@ async function getTodoList(id) {
 
 async function addTodoList(title, user_id) {
     if (!title || !user_id) {
-        reject({
+        return({
             success: false,
             message: 'Failed to add todolist',
-            error: err,
             status: 500
         })
     }

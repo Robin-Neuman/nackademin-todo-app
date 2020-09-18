@@ -22,7 +22,7 @@ async function addTodo(req, res) {
 
 async function addTodoList(req, res) {
     try {
-        let response = await todo_model.addTodoList(req.body.title, req.body.user_id, req.body.user_id)
+        let response = await todo_model.addTodoList(req.body.title, req.body.user_id)
         return res.status(response.status).json(response)
     } catch (err) {
         res.status(500).send("Server error, contact admin for more info")

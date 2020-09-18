@@ -8,7 +8,8 @@
     "testApi": "mocha ./tests/api.test",
     "devStart": "nodemon ./app.js",
     "start": "node ./app.js"
-  },
+  },  
+  "proxy": "https://todo-app-robin.herokuapp.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Robin-Neuman/nackademin-todo-app.git"

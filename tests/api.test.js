@@ -23,7 +23,7 @@ describe('Test out post todolist route', function () {
         await chai.request(app)
             .post('/user/login')
             .send({
-                username: 'test3',
+                username: 'adminTest',
                 password: '1234'
             })
             .then((res) => {
@@ -35,10 +35,10 @@ describe('Test out post todolist route', function () {
         chai.request(app)
             .post('/todo')
             .set("authorization", `Bearer ${token}`)
-            .send({ title: 'newList' })
+            .send({ title: 'newList', user_id: '1' })
             .end(function (err, res) {
                 expect(err).to.be.null;
-                expect(res).to.have.status(200);
+                expect(res).to.have.status(200)
             });
     })
 })
