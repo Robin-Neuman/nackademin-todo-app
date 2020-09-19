@@ -7,12 +7,6 @@ const indexRouter = require("./routes/index")
 const todoRouter = require("./routes/todo")
 const userRouter = require("./routes/user")
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));

@@ -21,9 +21,19 @@ describe('Test out post todolist route', function () {
     let token;
     before(async () => {
         await chai.request(app)
+            .post('/user/register')
+            .send({
+                username: 'test',
+                password: '1234',
+                role: 'user'
+            })
+            .then((res) => {                
+                expect(res).to.have.status(200)
+            })
+        await chai.request(app)
             .post('/user/login')
             .send({
-                username: 'adminTest',
+                username: 'test',
                 password: '1234'
             })
             .then((res) => {
