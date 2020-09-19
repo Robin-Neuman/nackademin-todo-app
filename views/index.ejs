@@ -85,7 +85,8 @@
             <% } %>
         </div>
         <div id="logout">
-            <button onclick="localStorage.removeItem('token')">Log out</button>
+            <button onclick="localStorage.removeItem('token'); 
+            window.location.href = '/home'">Log out</button>
         </div>
     </div>
 </body>

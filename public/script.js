@@ -1,4 +1,7 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {    
+    if (localStorage.getItem('token') == undefined) {
+        window.location.href = '/'
+    }
     const parseJwt = (token) => {
         try {
             return JSON.parse(atob(token.split('.')[1]));
