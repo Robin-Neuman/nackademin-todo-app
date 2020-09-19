@@ -1,15 +1,16 @@
-const db = require('./DB')
+const {User, TodoList} = require('./DB')
+const ObjectID = require('mongodb').ObjectID;
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const jwt_decode = require('jwt-decode')
 
 async function loginUser(username, password) {
     const query = new Promise((resolve, reject) => {
-        db.users.find({ username: username }, function (err, docs) {
+        User.findOne({ username: username }, function (err, docs) {
             if (err) reject(err)
-            if (docs[0]) {
-                if (bcrypt.compareSync(password, docs[0].password)) {
-                    jwt.sign({ user: docs[0], role: docs[0].role}, process.env.SECRET_TOKEN, {expiresIn: '10 h'}, (err, token) => {
+            if (docs !== null) {
+                if (bcrypt.compareSync(password, docs.password)) {
+                    jwt.sign({ user: docs, role: docs.role}, process.env.SECRET_TOKEN, {expiresIn: '10 h'}, (err, token) => {
                         if (err) reject(err)
                         resolve({
                             success: true,
@@ -40,10 +41,10 @@ async function loginUser(username, password) {
 
 async function registerUser(username, password, role) {
     const query = new Promise((resolve, reject) => {
-        db.users.find({ username: username }, function (err, docs) {
+        User.findOne({ username: username }, function (err, docs) {
             if (err) reject(err)
-            if (!docs[0]) {                
-                db.users.insert({ username: username, password: bcrypt.hashSync(password), role: role}, function () {
+            if (docs == null) {                
+                User.create({ username: username, password: bcrypt.hashSync(password), role: role}, function () {
                     resolve({
                         success: true,
                         message: 'User successfully created!',
@@ -75,16 +76,14 @@ async function deleteUser(headers) {
             jwt.verify(token[1], process.env.SECRET_TOKEN, async function (err) {
                 if (err) return err
                 const query = new Promise((resolve, reject) => {
-                    db.users.remove({ _id: decoded.user._id }, function (err, docs) {
+                    User.deleteOne({ _id: new ObjectID(decoded.user._id) }, function (err, docs) {
                         if (err) reject(err)
-                        if (!docs[0]) {                
-                            db.todoLists.remove({ user_id: decoded.user._id }, { multi: true }, function () {
-                                db.todos.remove({ user_id: decoded.user._id }, { multi: true }, function () {
-                                    resolve({
-                                        success: true,
-                                        message: 'User successfully removed!',
-                                        status: 200
-                                    })
+                        if (docs == null) {                
+                            TodoList.deleteMany({ user_id: new ObjectID(decoded.user._id) }, { multi: true }, function () {
+                                resolve({
+                                    success: true,
+                                    message: 'User successfully removed.',
+                                    status: 200
                                 })
                             })
                         } else {
