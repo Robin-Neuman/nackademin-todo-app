@@ -163,7 +163,6 @@ document.addEventListener("DOMContentLoaded", function () {
             done: done[0].checked,
             title: modalInput.value
         }
-        console.log(data)
         let id = editedTodo.value
         let pureId = id.slice(2)
         fetch(`/todo/${pureId}`, {

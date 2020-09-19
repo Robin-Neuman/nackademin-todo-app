@@ -172,7 +172,6 @@ async function removeList(id) {
             })
         })
     })
-    console.log(await query)
     return await query
 }
 

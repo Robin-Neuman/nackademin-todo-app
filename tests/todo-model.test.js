@@ -8,6 +8,11 @@ const todo_model = require('../models/todo-model')
 const db = require('../models/DB');
 
 describe('Get all todolists and todos', function() {
+    before(async () => {
+        let addListResponse = await todo_model.addTodoList('testList', '1')
+        let addTodoResponse = await todo_model.addTodo('testTodo', addListResponse._id, '1')
+        expect(addTodoResponse).to.have.keys('title', '_id', 'date_added', 'done', 'listId', 'user_id')
+    })
     it('Should return an array of lists with todos as a nested array', async function () {
         let todoLists = await todo_model.getTodos()
         expect(todoLists).to.be.an('array')
