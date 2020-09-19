@@ -75,13 +75,20 @@ document.addEventListener("DOMContentLoaded", function () {
     let deleteBtns = document.querySelectorAll('.deleteBtn')
     for (let i = 0; i < deleteBtns.length; i++) {
         deleteBtns[i].addEventListener("click", function () {
+            let listId = document.getElementById(deleteBtns[i].value + '-listId').value
             let id = deleteBtns[i].value
-            let pureId = id.slice(2)
-            fetch(`/todo/${pureId}`, {
+            let data = {
+                listId: listId.slice(2)
+            }
+            fetch(`/todo/${id.slice(2)}`, {
                 method: 'DELETE',
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                headers: { 
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}` 
+                },
+                body: JSON.stringify(data)
             })
-                .then(window.location.reload())
+            .then((window.location.reload()))
         })
     }
 
@@ -107,13 +114,14 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 0; i < checkBoxes.length; i++) {
         checkBoxes[i].addEventListener('click', function () {
             let title = document.getElementsByClassName('title ' + checkBoxes[i].value)[0].innerText
+            let listId = document.getElementById(checkBoxes[i].value + '-listId').value
             let data = {
                 done: checkBoxes[i].checked,
-                title: title
+                title: title,
+                listId: listId.slice(2)
             }
             let id = checkBoxes[i].value
-            let pureId = id.slice(2)
-            fetch(`/todo/${pureId}`, {
+            fetch(`/todo/${id.slice(2)}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -159,13 +167,14 @@ document.addEventListener("DOMContentLoaded", function () {
         let modalInput = document.getElementById('modalInput')
         let editedTodo = document.getElementById('editedTodo')
         let done = document.getElementsByClassName('checkbox ' + editedTodo.value)
+        let listId = document.getElementById(editedTodo.value + '-listId').value
         let data = {
             done: done[0].checked,
-            title: modalInput.value
+            title: modalInput.value,
+            listId: listId.slice(2)
         }
         let id = editedTodo.value
-        let pureId = id.slice(2)
-        fetch(`/todo/${pureId}`, {
+        fetch(`/todo/${id.slice(2)}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
