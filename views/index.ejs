@@ -74,6 +74,7 @@
                                 </td>
                                 <td class="padding-none"><button value="<%= todoLists[i1].todos[i2]._id %>"
                                         class="editBtn">Edit</button></td>
+                                <input id="<%= todoLists[i1].todos[i2]._id %>-listId" value="<%= todoLists[i1]._id %>" hidden>
                             </tr>
                         </tbody>
                     </table>
@@ -84,7 +85,8 @@
             <% } %>
         </div>
         <div id="logout">
-            <button onclick="localStorage.removeItem('token')">Log out</button>
+            <button onclick="localStorage.removeItem('token'); 
+            window.location.href = '/home'">Log out</button>
         </div>
     </div>
 </body>

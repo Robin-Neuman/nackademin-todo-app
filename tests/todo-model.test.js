@@ -5,10 +5,13 @@ const app = require('../app.js').app;
 const server = require('../app.js').server;
 const expect = chai.expect;
 const todo_model = require('../models/todo-model')
-const db = require('../models/DB');
+const {User, TodoList, connect, disconnect} = require('../models/DB');
 
 describe('Get all todolists and todos', function() {
     before(async () => {
+        connect(() => {
+            console.log("connected to db")
+        })
         let addListResponse = await todo_model.addTodoList('testList', '1')
         let addTodoResponse = await todo_model.addTodo('testTodo', addListResponse._id, '1')
         expect(addTodoResponse).to.have.keys('title', '_id', 'date_added', 'done', 'listId', 'user_id')
@@ -57,9 +60,7 @@ describe('Add new todo list and a todo to db with new date', function () {
 })
 
 describe('Update todo with new information and receive numreplaced 1', async function () {
-    await db.todoLists.remove({ title: 'testList' }, { multi: true })
-    await db.todos.remove({ title: 'testTodo' }, { multi: true })
-    await db.todos.remove({ title: 'newTestTitle' }, { multi: true })
+    await TodoList.remove({ title: 'testList' })
 
     let addListResponse = await todo_model.addTodoList('testList')
     let addTodoResponse = await todo_model.addTodo('testTodo', addListResponse.doc._id)
@@ -67,4 +68,5 @@ describe('Update todo with new information and receive numreplaced 1', async fun
     expect(updateResponse).to.equal(1)
 })
 
+disconnect()
 server.close()

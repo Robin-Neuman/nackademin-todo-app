@@ -1,13 +1,12 @@
-const db = require('./DB')
+const {TodoList} = require('./DB')
+const ObjectID = require('mongodb').ObjectID;
 const getNewUtcDate = require('../helpers')
 
 async function getTodos() {
     const query = new Promise((resolve, reject) => {
         let todoLists = []
-        db.todoLists.find({}, function (err, lists) {
+        TodoList.find({}, function (err, lists) {
             if (err) reject(err)
-            db.todos.find({}, async function (err, todos) {
-                if (err) reject(err)
                 lists.map((list) => {
                     let id = "id" + list._id
                     let currList = {
@@ -15,7 +14,7 @@ async function getTodos() {
                         title: list.title,
                         todos: []
                     }
-                    for (todo of todos) {
+                    for (todo of list.todos) {
                         if (list._id == todo.listId) {
                             let id = "id" + todo._id
                             currList.todos.push(
@@ -34,7 +33,6 @@ async function getTodos() {
                 })
                 resolve(todoLists)
             })
-        })
     }).catch((err) => {
         console.log(err)
     })
@@ -43,7 +41,7 @@ async function getTodos() {
 
 async function getTodoList(id) {
     const query = new Promise((resolve, reject) => {
-        db.todoLists.findOne({ _id: id }, function (err, list) {
+        TodoList.findOne({ _id: id }, function (err, list) {
             if (err) reject(err)
             db.todos.find({}, async function (err, todos) {
                 if (err) reject(err)
@@ -90,7 +88,7 @@ async function addTodoList(title, user_id) {
         user_id: user_id
     }
     const query = new Promise((resolve, reject) => {
-        db.todoLists.insert(todoList, function (err, newDoc) {
+        TodoList.create(todoList, function (err, newDoc) {
             if (err) {
                 reject({
                     success: false,
@@ -124,7 +122,7 @@ async function addTodo(title, listId, user_id) {
         user_id: user_id
     }
     const query = new Promise((resolve, reject) => {
-        db.todos.insert(todo, function (err, newDoc) {
+        TodoList.updateOne({_id: new ObjectID(listId)}, { $push: { todos: { _id: new ObjectID(), title: title, done: false, user_id: user_id, listId: listId, date_added: parsedDate.substr(0, 24)}}}, function (err, newDoc) {
             if (err) {
                 reject(err)
             } else {
@@ -135,10 +133,10 @@ async function addTodo(title, listId, user_id) {
     return await query
 }
 
-async function updateTodo(id, title, done) {
+async function updateTodo(id, title, done, listId) {
     const query = new Promise((resolve, reject) => {
         let parsedDate = getNewUtcDate()
-        db.todos.update({ _id: id }, { $set: { title: title, done: done, date_updated: parsedDate.substr(0, 24) } }, function (err, numReplaced) {
+        TodoList.updateOne({ _id: new ObjectID(listId), "todos._id": new ObjectID(id)}, { $set: { "todos.$.title": title, "todos.$.done": done, "todos.$.date_updated": parsedDate.substr(0, 24) } }, function (err, numReplaced) {
             if (err) {
                 reject(err)
             } else {
@@ -149,9 +147,9 @@ async function updateTodo(id, title, done) {
     return await query
 }
 
-async function removeTodo(id) {
+async function removeTodo(id, listId) {
     const query = new Promise((resolve, reject) => {
-        db.todos.remove({ _id: id }, function (err, numRemoved) {
+        TodoList.updateOne({ _id: new ObjectID(listId) }, { $pull: { todos: { _id: new ObjectID(id) } } }, function (err, numRemoved) {
             if (err) {
                 reject(err)
             } else {
@@ -164,9 +162,9 @@ async function removeTodo(id) {
 
 async function removeList(id) {
     const query = new Promise((resolve, reject) => {
-        db.todoLists.remove({ _id: id }, function (err, numRemoved1) {
+        TodoList.deleteOne({ _id: id }, function (err, numRemoved1) {
             if (err) reject(err)
-            db.todos.remove({ listId: id }, { multi: true }, function (err, numRemoved2) {
+            TodoList.deleteOne({ listId: id }, { multi: true }, function (err, numRemoved2) {
                 if (err) reject(err)
                 resolve(numRemoved1, numRemoved2)
             })
