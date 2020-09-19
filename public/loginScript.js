@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
             password: formData.get('password')
         }
 
-        fetch(`/user/login`, {
+        fetch(`https://todo-app-robin.herokuapp.com/user/login`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
             role: formData.get('role')
         }
 
-        fetch(`/user/register`, {
+        fetch(`https://todo-app-robin.herokuapp.com/user/register`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
