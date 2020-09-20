@@ -5,7 +5,7 @@ async function loginUser(req, res) {
         let response = await user_model.loginUser(req.body.username, req.body.password)
         return res.status(response.status).json(response)
     } catch (err) {
-        res.status(500).send("Server error, contact admin for more info")
+        res.status(500).send(err)
         throw err
     }
 }

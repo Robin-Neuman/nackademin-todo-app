@@ -9,8 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
             username: formData.get('username'),
             password: formData.get('password')
         }
-
-        fetch(`https://todo-app-robin.herokuapp.com/user/login`, {
+        fetch(`${window.CONFIG.host}/user/login`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -19,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => response.json())
         .then((data) => {
-            console.log(data)
             if (data.success) {
                 localStorage.removeItem('token')
                 localStorage.setItem('token', data.token)
@@ -40,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
             role: formData.get('role')
         }
 
-        fetch(`https://todo-app-robin.herokuapp.com/user/register`, {
+        fetch(`${window.CONFIG.host}/user/register`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

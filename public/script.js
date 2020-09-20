@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             let id = submitTodos[i].value
             let pureId = id.slice(2)
-            fetch(`https://todo-app-robin.herokuapp.com/todo/${pureId}`, {
+            fetch(`${window.CONFIG.host}/todo/${pureId}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
             title: inputListTitle,
             user_id: decoded.user._id
         }
-        fetch(`https://todo-app-robin.herokuapp.com/todo`, {
+        fetch(`${window.CONFIG.host}/todo`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let data = {
                 listId: listId.slice(2)
             }
-            fetch(`https://todo-app-robin.herokuapp.com/todo/${id.slice(2)}`, {
+            fetch(`${window.CONFIG.host}/todo/${id.slice(2)}`, {
                 method: 'DELETE',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteListBtns[i].addEventListener("click", function () {
             let id = deleteListBtns[i].value
             let pureId = id.slice(2)
-            fetch(`https://todo-app-robin.herokuapp.com/todo/list/${pureId}`, {
+            fetch(`${window.CONFIG.host}/todo/list/${pureId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json', 
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 listId: listId.slice(2)
             }
             let id = checkBoxes[i].value
-            fetch(`https://todo-app-robin.herokuapp.com/todo/${id.slice(2)}`, {
+            fetch(`${window.CONFIG.host}/todo/${id.slice(2)}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
             listId: listId.slice(2)
         }
         let id = editedTodo.value
-        fetch(`https://todo-app-robin.herokuapp.com/todo/${id.slice(2)}`, {
+        fetch(`${window.CONFIG.host}/todo/${id.slice(2)}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

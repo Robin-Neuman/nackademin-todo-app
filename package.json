@@ -4,12 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha ./tests/todo-model.test",
-    "testApi": "mocha ./tests/api.test",
-    "devStart": "nodemon ./app.js",
-    "start": "node ./app.js"
+    "test": "set ENVIRONMENT=test && mocha ./tests/todo-model.test",
+    "testApi": "set ENVIRONMENT=test && mocha ./tests/api.test",
+    "devStart": "set ENVIRONMENT=development && nodemon ./app.js",
+    "start": "set ENVIRONMENT=staging && node ./app.js"
   },
-  "proxy": "https://todo-app-robin.herokuapp.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Robin-Neuman/nackademin-todo-app.git"

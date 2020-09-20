@@ -27,8 +27,7 @@ const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
 
 let mongoDatabase
-
-switch(process.env.ENVIRONMENT){
+switch(process.env.ENVIRONMENT.trim()){
     case 'development':
         mongoDatabase = {
             getUri: async () => 
@@ -42,7 +41,6 @@ switch(process.env.ENVIRONMENT){
 ;
         connect()
         break;
-    case 'production':
     case 'staging':
         mongoDatabase = {
             getUri: async () => 
