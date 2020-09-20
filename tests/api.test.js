@@ -1,6 +1,5 @@
 const chai = require('chai')
 const chaiHTTP = require('chai-http');
-const bcrypt = require('bcryptjs');
 chai.use(chaiHTTP);
 const app = require('../app.js').app;
 const server = require('../app.js').server;
@@ -53,4 +52,6 @@ describe('Test out post todolist route', function () {
     })
 })
 
-server.close()
+setTimeout((function() {
+    return process.exit()
+}), 5000)
